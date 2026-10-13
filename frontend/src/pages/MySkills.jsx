@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { api } from '../api/apiClient';
 import { SkillBadge } from '../components/SkillBadge';
 import { AddSkillModal } from '../components/AddSkillModal';
-import { GraduationCap, BookOpen, Plus, Sparkles, CheckCircle2 } from 'lucide-react';
+import { GraduationCap, BookOpen, Plus, Sparkles, CheckCircle2, Award, ShieldCheck, ArrowRight } from 'lucide-react';
 
 export const MySkills = () => {
+  const navigate = useNavigate();
   const [skills, setSkills] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -107,11 +109,51 @@ export const MySkills = () => {
             </button>
           </div>
         ) : (
-          <div style={{ display: 'flex', gap: '0.65rem', flexWrap: 'wrap' }}>
-            {teachingSkills.map((skill) => (
-              <SkillBadge key={skill.id} skill={skill} onRemove={handleRemoveSkill} />
-            ))}
-          </div>
+          <>
+            <div style={{ display: 'flex', gap: '0.65rem', flexWrap: 'wrap', marginBottom: '1.25rem' }}>
+              {teachingSkills.map((skill) => (
+                <SkillBadge
+                  key={skill.id}
+                  skill={skill}
+                  onRemove={handleRemoveSkill}
+                  onVerifyClick={() => navigate('/student/skill-verification')}
+                />
+              ))}
+            </div>
+
+            {/* Skill Verification Callout */}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                flexWrap: 'wrap',
+                gap: '1rem',
+                padding: '0.9rem 1.25rem',
+                borderRadius: 'var(--radius-sm)',
+                backgroundColor: 'rgba(99, 102, 241, 0.08)',
+                border: '1px solid rgba(99, 102, 241, 0.25)',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                <ShieldCheck size={20} style={{ color: '#818cf8' }} />
+                <div>
+                  <span style={{ fontSize: '0.875rem', fontWeight: 700, color: '#fff' }}>
+                    Earn Platform Verified Badges
+                  </span>
+                  <p style={{ fontSize: '0.8rem', color: '#9ca3af', margin: 0 }}>
+                    Take standardized MCQ assessments to verify your skills. Scoring 70%+ unlocks verified badges and boosts peer matching.
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => navigate('/student/skill-verification')}
+                className="btn btn-secondary btn-sm"
+              >
+                <Award size={14} /> Go to Skill Tests <ArrowRight size={14} />
+              </button>
+            </div>
+          </>
         )}
       </div>
 

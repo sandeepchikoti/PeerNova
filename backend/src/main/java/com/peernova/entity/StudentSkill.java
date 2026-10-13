@@ -31,6 +31,15 @@ public class StudentSkill {
     @Column(name = "proficiency_level")
     private ProficiencyLevel proficiencyLevel = ProficiencyLevel.INTERMEDIATE;
 
+    @Column(name = "is_verified", nullable = false)
+    private boolean isVerified = false;
+
+    @Column(name = "verified_at")
+    private LocalDateTime verifiedAt;
+
+    @Column(name = "verification_score")
+    private Double verificationScore;
+
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
@@ -96,6 +105,30 @@ public class StudentSkill {
 
     public void setProficiencyLevel(ProficiencyLevel proficiencyLevel) {
         this.proficiencyLevel = proficiencyLevel;
+    }
+
+    public boolean isVerified() {
+        return isVerified;
+    }
+
+    public void setVerified(boolean verified) {
+        isVerified = verified;
+    }
+
+    public LocalDateTime getVerifiedAt() {
+        return verifiedAt;
+    }
+
+    public void setVerifiedAt(LocalDateTime verifiedAt) {
+        this.verifiedAt = verifiedAt;
+    }
+
+    public Double getVerificationScore() {
+        return verificationScore;
+    }
+
+    public void setVerificationScore(Double verificationScore) {
+        this.verificationScore = verificationScore;
     }
 
     public LocalDateTime getCreatedAt() {

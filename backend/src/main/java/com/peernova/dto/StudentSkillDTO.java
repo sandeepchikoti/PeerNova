@@ -9,16 +9,28 @@ public class StudentSkillDTO {
     private String categoryName;
     private SkillType skillType;
     private ProficiencyLevel proficiencyLevel;
+    private boolean isVerified;
+    private java.time.LocalDateTime verifiedAt;
+    private Double verificationScore;
 
     public StudentSkillDTO() {
     }
 
     public StudentSkillDTO(Long id, String skillName, String categoryName, SkillType skillType, ProficiencyLevel proficiencyLevel) {
+        this(id, skillName, categoryName, skillType, proficiencyLevel, false, null, null);
+    }
+
+    public StudentSkillDTO(Long id, String skillName, String categoryName, SkillType skillType,
+                           ProficiencyLevel proficiencyLevel, boolean isVerified,
+                           java.time.LocalDateTime verifiedAt, Double verificationScore) {
         this.id = id;
         this.skillName = skillName;
         this.categoryName = categoryName;
         this.skillType = skillType;
         this.proficiencyLevel = proficiencyLevel;
+        this.isVerified = isVerified;
+        this.verifiedAt = verifiedAt;
+        this.verificationScore = verificationScore;
     }
 
     public Long getId() {
@@ -57,7 +69,27 @@ public class StudentSkillDTO {
         return proficiencyLevel;
     }
 
-    public void setProficiencyLevel(ProficiencyLevel proficiencyLevel) {
-        this.proficiencyLevel = proficiencyLevel;
+    public boolean isVerified() {
+        return isVerified;
+    }
+
+    public void setVerified(boolean verified) {
+        isVerified = verified;
+    }
+
+    public java.time.LocalDateTime getVerifiedAt() {
+        return verifiedAt;
+    }
+
+    public void setVerifiedAt(java.time.LocalDateTime verifiedAt) {
+        this.verifiedAt = verifiedAt;
+    }
+
+    public Double getVerificationScore() {
+        return verificationScore;
+    }
+
+    public void setVerificationScore(Double verificationScore) {
+        this.verificationScore = verificationScore;
     }
 }

@@ -126,4 +126,19 @@ export const api = {
       method: 'PUT',
       body: JSON.stringify({ status, remark }),
     }),
+
+  // Phase 7: Skill Verification & Assessment APIs
+  getSkillTests: () => request('/skill-tests', { method: 'GET' }),
+  getSkillTestQuestions: (testId) => request(`/skill-tests/${testId}`, { method: 'GET' }),
+  submitSkillTest: (testId, data) => 
+    request(`/skill-tests/${testId}/submit`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }),
+  getMyTestAttempts: () => request('/skill-tests/my-attempts', { method: 'GET' }),
+  getAllTestAttemptsForAdmin: () => request('/admin/skill-tests/attempts', { method: 'GET' }),
+  manualVerifySkill: (studentSkillId, verify = true) => 
+    request(`/admin/skills/${studentSkillId}/verify?verify=${verify}`, {
+      method: 'PUT',
+    }),
 };

@@ -96,7 +96,10 @@ public class SkillService {
                 skill.getSkillName(),
                 skill.getCategoryName(),
                 skill.getSkillType(),
-                skill.getProficiencyLevel()
+                skill.getProficiencyLevel(),
+                skill.isVerified(),
+                skill.getVerifiedAt(),
+                skill.getVerificationScore()
         );
     }
 }

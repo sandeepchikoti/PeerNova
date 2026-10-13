@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { User, LogOut, ShieldCheck, Compass, LayoutDashboard, Sparkles, Users, Zap, Brain, MessageSquare, Video } from 'lucide-react';
+import { User, LogOut, ShieldCheck, Compass, LayoutDashboard, Sparkles, Users, Zap, Brain, MessageSquare, Video, Award } from 'lucide-react';
 
 export const Navbar = () => {
   const { user, isAuthenticated, isStudent, isAdmin, logout } = useAuth();
@@ -86,6 +86,14 @@ export const Navbar = () => {
               >
                 <Video size={15} style={{ marginRight: 4, color: '#10b981' }} />
                 Sessions
+              </Link>
+
+              <Link
+                to="/student/skill-verification"
+                className={`nav-link ${isActive('/student/skill-verification') ? 'active' : ''}`}
+              >
+                <Award size={15} style={{ marginRight: 4, color: '#f59e0b' }} />
+                Skill Tests
               </Link>
 
               <Link

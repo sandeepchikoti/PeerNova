@@ -17,6 +17,7 @@ import { PersonalizedRecommendations } from './pages/PersonalizedRecommendations
 import { Chat } from './pages/Chat';
 import { Connections } from './pages/Connections';
 import { Sessions } from './pages/Sessions';
+import { SkillVerification } from './pages/SkillVerification';
 import { AdminDashboard } from './pages/AdminDashboard';
 
 export function App() {
@@ -110,6 +111,14 @@ export function App() {
                 element={
                   <ProtectedRoute allowedRoles={['ROLE_STUDENT']}>
                     <Sessions />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/student/skill-verification"
+                element={
+                  <ProtectedRoute allowedRoles={['ROLE_STUDENT']}>
+                    <SkillVerification />
                   </ProtectedRoute>
                 }
               />

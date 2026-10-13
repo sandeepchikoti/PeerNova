@@ -225,7 +225,7 @@ public class RecommendationService {
     }
 
     private StudentSkillDTO mapSkillToDTO(StudentSkill s) {
-        return new StudentSkillDTO(s.getId(), s.getSkillName(), s.getCategoryName(), s.getSkillType(), s.getProficiencyLevel());
+        return new StudentSkillDTO(s.getId(), s.getSkillName(), s.getCategoryName(), s.getSkillType(), s.getProficiencyLevel(), s.isVerified(), s.getVerifiedAt(), s.getVerificationScore());
     }
 
     private double round(double value, int places) {
