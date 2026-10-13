@@ -141,4 +141,26 @@ export const api = {
     request(`/admin/skills/${studentSkillId}/verify?verify=${verify}`, {
       method: 'PUT',
     }),
+
+  // Phase 8: Certificates & Reviews APIs
+  getMyCertificates: () => request('/certificates/my-certificates', { method: 'GET' }),
+  getCertificateById: (id) => request(`/certificates/${id}`, { method: 'GET' }),
+  verifyCertificateCode: (code) => request(`/certificates/verify/${code}`, { method: 'GET' }),
+  generateSkillCertificate: (attemptId) => 
+    request(`/certificates/generate/skill/${attemptId}`, { method: 'POST' }),
+  generateSessionCertificate: (sessionId) => 
+    request(`/certificates/generate/session/${sessionId}`, { method: 'POST' }),
+  getAllCertificatesForAdmin: () => request('/admin/certificates', { method: 'GET' }),
+
+  submitSessionReview: (sessionId, data) => 
+    request(`/reviews/session/${sessionId}`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }),
+  getSessionReviews: (sessionId) => request(`/reviews/session/${sessionId}`, { method: 'GET' }),
+  getMyReceivedReviews: () => request('/reviews/my-reviews', { method: 'GET' }),
+  getStudentReviews: (profileId) => request(`/reviews/student/${profileId}`, { method: 'GET' }),
+  getAllReviewsForAdmin: () => request('/admin/reviews', { method: 'GET' }),
+  toggleFlagReview: (id, flagged = true) => 
+    request(`/admin/reviews/${id}/flag?flagged=${flagged}`, { method: 'PUT' }),
 };

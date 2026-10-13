@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../api/apiClient';
 import { SkillAssessmentModal } from '../components/SkillAssessmentModal';
+import { CertificateModal } from '../components/CertificateModal';
 import {
   Award,
   ShieldCheck,
@@ -23,6 +24,7 @@ export const SkillVerification = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [selectedTest, setSelectedTest] = useState(null);
+  const [viewingCertificate, setViewingCertificate] = useState(null);
   const [toastMessage, setToastMessage] = useState('');
 
   const loadVerificationData = async () => {
@@ -375,21 +377,31 @@ export const SkillVerification = () => {
                         </div>
                       </td>
                       <td style={{ padding: '1rem 1.25rem' }}>
-                        <span
-                          style={{
-                            fontWeight: 800,
-                            color: att.passed ? '#34d399' : '#f87171',
-                            fontSize: '0.95rem',
-                          }}
-                        >
-                          {att.scorePercentage.toFixed(1)}%
-                        </span>
-                        <span style={{ fontSize: '0.75rem', color: '#6b7280', marginLeft: '4px' }}>
-                          ({att.score}/{att.totalQuestions})
-                        </span>
+                        {(() => {
+                          const isPassed = Boolean(att.passed ?? att.isPassed);
+                          const pct = Number(att.scorePercentage ?? att.percentage ?? 0);
+                          const sc = att.score ?? 0;
+                          const total = att.totalQuestions ?? att.totalMarks ?? 5;
+                          return (
+                            <>
+                              <span
+                                style={{
+                                  fontWeight: 800,
+                                  color: isPassed ? '#34d399' : '#f87171',
+                                  fontSize: '0.95rem',
+                                }}
+                              >
+                                {pct.toFixed(1)}%
+                              </span>
+                              <span style={{ fontSize: '0.75rem', color: '#6b7280', marginLeft: '4px' }}>
+                                ({sc}/{total})
+                              </span>
+                            </>
+                          );
+                        })()}
                       </td>
                       <td style={{ padding: '1rem 1.25rem' }}>
-                        {att.passed ? (
+                        {Boolean(att.passed ?? att.isPassed) ? (
                           <span
                             style={{
                               display: 'inline-flex',
@@ -424,23 +436,41 @@ export const SkillVerification = () => {
                         )}
                       </td>
                       <td style={{ padding: '1rem 1.25rem' }}>
-                        {att.passed ? (
-                          <span
-                            style={{
-                              display: 'inline-flex',
-                              alignItems: 'center',
-                              gap: '4px',
-                              padding: '0.2rem 0.55rem',
-                              borderRadius: '999px',
-                              backgroundColor: 'rgba(16, 185, 129, 0.25)',
-                              color: '#10b981',
-                              border: '1px solid rgba(16, 185, 129, 0.5)',
-                              fontSize: '0.72rem',
-                              fontWeight: 800,
-                            }}
-                          >
-                            <ShieldCheck size={13} /> VERIFIED
-                          </span>
+                        {Boolean(att.passed ?? att.isPassed) ? (
+                          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
+                            <span
+                              style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '4px',
+                                padding: '0.2rem 0.55rem',
+                                borderRadius: '999px',
+                                backgroundColor: 'rgba(16, 185, 129, 0.25)',
+                                color: '#10b981',
+                                border: '1px solid rgba(16, 185, 129, 0.5)',
+                                fontSize: '0.72rem',
+                                fontWeight: 800,
+                              }}
+                            >
+                              <ShieldCheck size={13} /> VERIFIED
+                            </span>
+
+                            <button
+                              onClick={async () => {
+                                try {
+                                  const cert = await api.generateSkillCertificate(att.id);
+                                  setViewingCertificate(cert);
+                                } catch (err) {
+                                  alert(err.message || 'Error generating certificate');
+                                }
+                              }}
+                              className="btn btn-outline btn-sm"
+                              style={{ padding: '0.2rem 0.55rem', fontSize: '0.72rem', color: '#fbbf24', borderColor: 'rgba(245, 158, 11, 0.4)' }}
+                              title="View & Print Official Certificate"
+                            >
+                              <Award size={12} /> Certificate
+                            </button>
+                          </div>
                         ) : (
                           <span style={{ color: '#6b7280', fontSize: '0.8rem' }}>Not Granted</span>
                         )}
@@ -460,6 +490,14 @@ export const SkillVerification = () => {
           test={selectedTest}
           onClose={() => setSelectedTest(null)}
           onCompleted={handleAssessmentCompleted}
+        />
+      )}
+
+      {/* View Certificate Modal */}
+      {viewingCertificate && (
+        <CertificateModal
+          certificate={viewingCertificate}
+          onClose={() => setViewingCertificate(null)}
         />
       )}
     </div>

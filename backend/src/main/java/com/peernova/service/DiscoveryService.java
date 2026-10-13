@@ -103,6 +103,8 @@ public class DiscoveryService {
                 resp.setYearOfStudy(profile.getYearOfStudy());
                 resp.setBio(profile.getBio());
                 resp.setVerificationStatus(profile.getVerificationStatus());
+                resp.setAverageRating(profile.getAverageRating());
+                resp.setTotalReviews(profile.getTotalReviews());
                 resp.setTeachingSkills(teachingSkills);
                 resp.setLearningSkills(learningSkills);
                 results.add(resp);

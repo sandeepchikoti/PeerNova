@@ -31,6 +31,12 @@ public class StudentProfile {
     @Column(name = "verification_status", nullable = false)
     private VerificationStatus verificationStatus = VerificationStatus.PENDING;
 
+    @Column(name = "average_rating")
+    private Double averageRating = 0.0;
+
+    @Column(name = "total_reviews")
+    private Integer totalReviews = 0;
+
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
@@ -116,6 +122,22 @@ public class StudentProfile {
 
     public void setVerificationStatus(VerificationStatus verificationStatus) {
         this.verificationStatus = verificationStatus;
+    }
+
+    public Double getAverageRating() {
+        return averageRating != null ? averageRating : 0.0;
+    }
+
+    public void setAverageRating(Double averageRating) {
+        this.averageRating = averageRating;
+    }
+
+    public Integer getTotalReviews() {
+        return totalReviews != null ? totalReviews : 0;
+    }
+
+    public void setTotalReviews(Integer totalReviews) {
+        this.totalReviews = totalReviews;
     }
 
     public LocalDateTime getCreatedAt() {

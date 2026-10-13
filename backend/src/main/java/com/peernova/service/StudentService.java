@@ -110,6 +110,8 @@ public class StudentService {
         response.setYearOfStudy(profile.getYearOfStudy());
         response.setBio(profile.getBio());
         response.setVerificationStatus(profile.getVerificationStatus());
+        response.setAverageRating(profile.getAverageRating());
+        response.setTotalReviews(profile.getTotalReviews());
         response.setCreatedAt(profile.getCreatedAt());
         response.setUpdatedAt(profile.getUpdatedAt());
         return response;

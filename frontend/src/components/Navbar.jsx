@@ -97,6 +97,14 @@ export const Navbar = () => {
               </Link>
 
               <Link
+                to="/student/certificates"
+                className={`nav-link ${isActive('/student/certificates') ? 'active' : ''}`}
+              >
+                <Award size={15} style={{ marginRight: 4, color: '#34d399' }} />
+                Certificates
+              </Link>
+
+              <Link
                 to="/student/skills"
                 className={`nav-link ${isActive('/student/skills') ? 'active' : ''}`}
               >

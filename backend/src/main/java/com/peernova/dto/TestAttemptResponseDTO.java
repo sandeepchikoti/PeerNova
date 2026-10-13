@@ -113,6 +113,10 @@ public class TestAttemptResponseDTO {
         return percentage;
     }
 
+    public Double getScorePercentage() {
+        return percentage != null ? percentage : 0.0;
+    }
+
     public void setPercentage(Double percentage) {
         this.percentage = percentage;
     }
@@ -121,8 +125,16 @@ public class TestAttemptResponseDTO {
         return isPassed;
     }
 
+    public boolean getPassed() {
+        return isPassed;
+    }
+
     public void setPassed(boolean passed) {
         isPassed = passed;
+    }
+
+    public Integer getTotalQuestions() {
+        return totalMarks != null ? totalMarks : 5;
     }
 
     public LocalDateTime getAttemptedAt() {

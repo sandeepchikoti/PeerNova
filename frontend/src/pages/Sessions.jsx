@@ -3,6 +3,8 @@ import { api } from '../api/apiClient';
 import { useAuth } from '../context/AuthContext';
 import { ScheduleSessionModal } from '../components/ScheduleSessionModal';
 import { VideoMeetingModal } from '../components/VideoMeetingModal';
+import { ReviewModal } from '../components/ReviewModal';
+import { CertificateModal } from '../components/CertificateModal';
 import {
   Video,
   Calendar,
@@ -17,7 +19,8 @@ import {
   ArrowRight,
   ExternalLink,
   ChevronRight,
-  Sparkles
+  Sparkles,
+  Star
 } from 'lucide-react';
 
 export const Sessions = () => {
@@ -34,6 +37,8 @@ export const Sessions = () => {
   const [isScheduleOpen, setIsScheduleOpen] = useState(false);
   const [connectedPeers, setConnectedPeers] = useState([]);
   const [selectedPeerForSchedule, setSelectedPeerForSchedule] = useState(null);
+  const [reviewingSession, setReviewingSession] = useState(null);
+  const [viewingCertificate, setViewingCertificate] = useState(null);
 
   const fetchSessionsData = async () => {
     setLoading(true);
@@ -423,9 +428,29 @@ export const Sessions = () => {
                         )}
 
                         {sess.status === 'COMPLETED' && (
-                          <div style={{ fontSize: '0.8rem', color: '#64748b', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-                            <CheckCircle size={14} style={{ color: '#10b981' }} />
-                            <span>Session archived & verified</span>
+                          <div style={{ display: 'flex', gap: '0.5rem', width: '100%', flexWrap: 'wrap', alignItems: 'center' }}>
+                            <button
+                              onClick={() => setReviewingSession(sess)}
+                              className="btn btn-outline btn-sm"
+                              style={{ color: '#fbbf24', borderColor: 'rgba(245, 158, 11, 0.4)', background: 'rgba(245, 158, 11, 0.08)' }}
+                            >
+                              <Star size={13} fill="#fbbf24" /> Rate & Review
+                            </button>
+
+                            <button
+                              onClick={async () => {
+                                try {
+                                  const cert = await api.generateSessionCertificate(sess.id);
+                                  setViewingCertificate(cert);
+                                } catch (err) {
+                                  alert(err.message || 'Error generating certificate');
+                                }
+                              }}
+                              className="btn btn-primary btn-sm"
+                              style={{ background: 'linear-gradient(135deg, #059669, #10b981)', borderColor: '#059669' }}
+                            >
+                              <Award size={13} /> View Certificate
+                            </button>
                           </div>
                         )}
                       </div>
@@ -448,6 +473,27 @@ export const Sessions = () => {
           }}
           session={activeMeetingSession}
           onAttendanceRecorded={fetchSessionsData}
+        />
+      )}
+
+      {/* Review & Rating Modal */}
+      {reviewingSession && (
+        <ReviewModal
+          session={reviewingSession}
+          onClose={() => setReviewingSession(null)}
+          onSuccess={() => {
+            setMessage('Peer review and rating submitted successfully! Thank you for supporting peer mentorship.');
+            fetchSessionsData();
+            setTimeout(() => setMessage(''), 4000);
+          }}
+        />
+      )}
+
+      {/* Certificate Modal */}
+      {viewingCertificate && (
+        <CertificateModal
+          certificate={viewingCertificate}
+          onClose={() => setViewingCertificate(null)}
         />
       )}
 

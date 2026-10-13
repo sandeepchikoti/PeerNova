@@ -15,10 +15,28 @@ public class StudentProfileResponse {
     private String yearOfStudy;
     private String bio;
     private VerificationStatus verificationStatus;
+    private Double averageRating = 0.0;
+    private Integer totalReviews = 0;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     public StudentProfileResponse() {
+    }
+
+    public Double getAverageRating() {
+        return averageRating != null ? averageRating : 0.0;
+    }
+
+    public void setAverageRating(Double averageRating) {
+        this.averageRating = averageRating;
+    }
+
+    public Integer getTotalReviews() {
+        return totalReviews != null ? totalReviews : 0;
+    }
+
+    public void setTotalReviews(Integer totalReviews) {
+        this.totalReviews = totalReviews;
     }
 
     public Long getId() {

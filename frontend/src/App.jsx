@@ -18,6 +18,7 @@ import { Chat } from './pages/Chat';
 import { Connections } from './pages/Connections';
 import { Sessions } from './pages/Sessions';
 import { SkillVerification } from './pages/SkillVerification';
+import { Certificates } from './pages/Certificates';
 import { AdminDashboard } from './pages/AdminDashboard';
 
 export function App() {
@@ -119,6 +120,14 @@ export function App() {
                 element={
                   <ProtectedRoute allowedRoles={['ROLE_STUDENT']}>
                     <SkillVerification />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/student/certificates"
+                element={
+                  <ProtectedRoute allowedRoles={['ROLE_STUDENT']}>
+                    <Certificates />
                   </ProtectedRoute>
                 }
               />
