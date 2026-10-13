@@ -4,7 +4,8 @@ import { useAuth } from '../context/AuthContext';
 import { api } from '../api/apiClient';
 import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
-import { MessageSquare, Send, CheckCheck, Clock, User, ShieldCheck, Sparkles, RefreshCw, Search, Circle } from 'lucide-react';
+import { MessageSquare, Send, CheckCheck, Clock, User, ShieldCheck, Sparkles, RefreshCw, Search, Circle, Video } from 'lucide-react';
+import { ScheduleSessionModal } from '../components/ScheduleSessionModal';
 
 export const Chat = () => {
   const { user } = useAuth();
@@ -19,6 +20,7 @@ export const Chat = () => {
   const [loadingMessages, setLoadingMessages] = useState(false);
   const [stompConnected, setStompConnected] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [schedulePeer, setSchedulePeer] = useState(null);
 
   const stompClientRef = useRef(null);
   const messagesEndRef = useRef(null);
@@ -355,8 +357,24 @@ export const Chat = () => {
                   </div>
                 </div>
 
-                <div style={{ fontSize: '0.8rem', color: '#34d399', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
-                  <Sparkles size={14} /> Active Peer Collaboration Channel
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                  <button
+                    onClick={() => setSchedulePeer({
+                      profileId: activeConversation.peerProfileId,
+                      fullName: activeConversation.peerName,
+                      college: activeConversation.peerCollege,
+                      department: activeConversation.peerDepartment,
+                    })}
+                    className="btn btn-outline btn-sm"
+                    style={{ fontSize: '0.75rem', borderColor: '#10b981', color: '#34d399', display: 'flex', alignItems: 'center', gap: '0.35rem' }}
+                    title="Schedule a collaborative video session with this peer"
+                  >
+                    <Video size={14} /> Schedule Video Session
+                  </button>
+
+                  <div style={{ fontSize: '0.8rem', color: '#34d399', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                    <Sparkles size={14} /> Live
+                  </div>
                 </div>
               </div>
 
@@ -439,6 +457,17 @@ export const Chat = () => {
           )}
         </div>
       </div>
+
+      {schedulePeer && (
+        <ScheduleSessionModal
+          isOpen={!!schedulePeer}
+          onClose={() => setSchedulePeer(null)}
+          peer={schedulePeer}
+          onSuccess={() => {
+            alert('Session requested successfully! Visit the Sessions tab to view status.');
+          }}
+        />
+      )}
     </div>
   );
 };

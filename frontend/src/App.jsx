@@ -16,6 +16,7 @@ import { SkillMatching } from './pages/SkillMatching';
 import { PersonalizedRecommendations } from './pages/PersonalizedRecommendations';
 import { Chat } from './pages/Chat';
 import { Connections } from './pages/Connections';
+import { Sessions } from './pages/Sessions';
 import { AdminDashboard } from './pages/AdminDashboard';
 
 export function App() {
@@ -101,6 +102,14 @@ export function App() {
                 element={
                   <ProtectedRoute allowedRoles={['ROLE_STUDENT']}>
                     <Connections />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/student/sessions"
+                element={
+                  <ProtectedRoute allowedRoles={['ROLE_STUDENT']}>
+                    <Sessions />
                   </ProtectedRoute>
                 }
               />

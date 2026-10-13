@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { User, LogOut, ShieldCheck, Compass, LayoutDashboard, Sparkles, Users, Zap, Brain, MessageSquare } from 'lucide-react';
+import { User, LogOut, ShieldCheck, Compass, LayoutDashboard, Sparkles, Users, Zap, Brain, MessageSquare, Video } from 'lucide-react';
 
 export const Navbar = () => {
   const { user, isAuthenticated, isStudent, isAdmin, logout } = useAuth();
@@ -78,6 +78,14 @@ export const Navbar = () => {
               >
                 <Users size={15} style={{ marginRight: 4 }} />
                 Connections
+              </Link>
+
+              <Link
+                to="/student/sessions"
+                className={`nav-link ${isActive('/student/sessions') ? 'active' : ''}`}
+              >
+                <Video size={15} style={{ marginRight: 4, color: '#10b981' }} />
+                Sessions
               </Link>
 
               <Link

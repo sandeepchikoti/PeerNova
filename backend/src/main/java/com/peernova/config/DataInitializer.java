@@ -2,6 +2,8 @@ package com.peernova.config;
 
 import com.peernova.entity.*;
 import com.peernova.repository.*;
+import java.util.List;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,12 @@ public class DataInitializer implements CommandLineRunner {
 
     @Autowired
     private StudentSkillRepository studentSkillRepository;
+
+    @Autowired
+    private ConnectionRepository connectionRepository;
+
+    @Autowired
+    private LearningSessionRepository learningSessionRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -120,6 +128,50 @@ public class DataInitializer implements CommandLineRunner {
             addSkill(sandeep, "Docker & Containers", "Cloud & DevOps", SkillType.LEARN, ProficiencyLevel.BEGINNER);
 
             logger.info("Seeded initial sample students with teaching and learning skills.");
+        }
+
+        // 4. Initialize sample connection & learning sessions if none exist
+        if (learningSessionRepository.count() == 0 && studentProfileRepository.count() >= 2) {
+            List<StudentProfile> students = studentProfileRepository.findAll();
+            if (students.size() >= 2) {
+                StudentProfile rithvik = students.get(0);
+                StudentProfile sowmya = students.get(1);
+
+                Optional<Connection> existingConn = connectionRepository.findConnectionBetween(rithvik.getId(), sowmya.getId());
+                if (existingConn.isEmpty()) {
+                    Connection conn = new Connection(rithvik, sowmya, "Hey Sowmya! Let's connect for peer mentoring on React and Spring Boot.");
+                    conn.setStatus(ConnectionStatus.ACCEPTED);
+                    connectionRepository.save(conn);
+                }
+
+                LearningSession session1 = new LearningSession(
+                        sowmya, // Mentor: Sowmya teaches React
+                        rithvik, // Learner: Rithvik learns React
+                        "React State Management & Hooks Deep-Dive",
+                        java.time.LocalDateTime.now().plusDays(1).withHour(17).withMinute(0),
+                        60,
+                        "Practical peer review of React state patterns, custom hooks, and frontend best practices.",
+                        "peernova-session-react-deepdive",
+                        "https://meet.jit.si/peernova-session-react-deepdive"
+                );
+                session1.setStatus(SessionStatus.CONFIRMED);
+                learningSessionRepository.save(session1);
+
+                LearningSession session2 = new LearningSession(
+                        rithvik, // Mentor: Rithvik teaches Spring Boot
+                        sowmya, // Learner: Sowmya learns Spring Boot
+                        "Spring Boot REST APIs & MySQL Persistence",
+                        java.time.LocalDateTime.now().plusDays(2).withHour(18).withMinute(30),
+                        45,
+                        "Building secure REST controllers, JPA repository queries, and JWT authentication filters.",
+                        "peernova-session-springboot-arch",
+                        "https://meet.jit.si/peernova-session-springboot-arch"
+                );
+                session2.setStatus(SessionStatus.CONFIRMED);
+                learningSessionRepository.save(session2);
+
+                logger.info("Seeded sample confirmed learning sessions for demo.");
+            }
         }
     }
 

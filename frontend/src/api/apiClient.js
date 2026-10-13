@@ -94,6 +94,23 @@ export const api = {
   markChatAsRead: (connectionId) => request(`/chat/read/${connectionId}`, { method: 'PUT' }),
   getUnreadChatCount: () => request('/chat/unread-count', { method: 'GET' }),
 
+  // Phase 6: Collaborative Learning Sessions, Video & Attendance APIs
+  requestSession: (data) => request('/sessions/request', { method: 'POST', body: JSON.stringify(data) }),
+  getMySessions: () => request('/sessions/my-sessions', { method: 'GET' }),
+  getSessionById: (id) => request(`/sessions/${id}`, { method: 'GET' }),
+  updateSessionStatus: (id, status) => 
+    request(`/sessions/${id}/status`, {
+      method: 'PUT',
+      body: JSON.stringify({ status }),
+    }),
+  markSessionAttendance: (id, data = {}) => 
+    request(`/sessions/${id}/attendance`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }),
+  getSessionAttendances: (id) => request(`/sessions/${id}/attendance`, { method: 'GET' }),
+  getMyAttendanceHistory: () => request('/sessions/attendance-history', { method: 'GET' }),
+
   // Admin APIs
   getAdminDashboardStats: () => request('/admin/dashboard-stats', { method: 'GET' }),
   getAdminStudents: (search = '', status = '') => {

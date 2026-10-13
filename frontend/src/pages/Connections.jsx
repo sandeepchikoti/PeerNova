@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '../api/apiClient';
-import { Users, UserCheck, Clock, Send, CheckCircle2, XCircle, MessageSquare, Calendar, Building, Mail } from 'lucide-react';
+import { Users, UserCheck, Clock, Send, CheckCircle2, XCircle, MessageSquare, Calendar, Building, Mail, Video } from 'lucide-react';
+import { ScheduleSessionModal } from '../components/ScheduleSessionModal';
 
 export const Connections = () => {
   const [activeTab, setActiveTab] = useState('ACTIVE'); // 'ACTIVE', 'RECEIVED', 'SENT'
@@ -9,6 +10,7 @@ export const Connections = () => {
   const [sentRequests, setSentRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState('');
+  const [schedulePeer, setSchedulePeer] = useState(null);
 
   const fetchConnectionsData = async () => {
     setLoading(true);
@@ -150,7 +152,20 @@ export const Connections = () => {
                           className="btn btn-primary btn-sm"
                           style={{ flex: 1 }}
                         >
-                          <MessageSquare size={14} /> Open Chat & Collaboration
+                          <MessageSquare size={14} /> Open Chat
+                        </button>
+                        <button
+                          onClick={() => setSchedulePeer({
+                            profileId: conn.peerProfileId,
+                            fullName: conn.peerName,
+                            college: conn.peerCollege,
+                            department: conn.peerDepartment
+                          })}
+                          className="btn btn-outline btn-sm"
+                          style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', borderColor: '#10b981', color: '#34d399' }}
+                          title="Schedule a 1-to-1 video study session with this peer"
+                        >
+                          <Video size={14} /> Schedule Session
                         </button>
                       </div>
                     </div>
@@ -235,6 +250,18 @@ export const Connections = () => {
             </div>
           )}
         </div>
+      )}
+
+      {schedulePeer && (
+        <ScheduleSessionModal
+          isOpen={!!schedulePeer}
+          onClose={() => setSchedulePeer(null)}
+          peer={schedulePeer}
+          onSuccess={() => {
+            setMessage('Session request submitted successfully!');
+            setTimeout(() => setMessage(''), 3500);
+          }}
+        />
       )}
     </div>
   );
