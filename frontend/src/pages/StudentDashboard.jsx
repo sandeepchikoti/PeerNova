@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { api } from '../api/apiClient';
-import { UserCheck, BookOpen, Users, ShieldAlert, ShieldCheck, Edit3, ArrowRight, Building, Award, Mail } from 'lucide-react';
+import { UserCheck, BookOpen, Users, ShieldAlert, ShieldCheck, Edit3, ArrowRight, Building, Award, Mail, FileText, Sparkles } from 'lucide-react';
 
 export const StudentDashboard = () => {
   const { user, refreshUser } = useAuth();
@@ -169,6 +169,39 @@ export const StudentDashboard = () => {
 
         <Link to="/student/recommendations" className="btn btn-primary" style={{ backgroundColor: '#a855f7', borderColor: '#a855f7' }}>
           Explore AI Matches <ArrowRight size={16} />
+        </Link>
+      </div>
+
+      {/* AI Resume Builder & Career Copilot Highlight Banner (Phase 9) */}
+      <div
+        className="card"
+        style={{
+          background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.18), rgba(59, 130, 246, 0.18))',
+          borderColor: 'rgba(99, 102, 241, 0.4)',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: '1rem',
+          padding: '1.5rem 1.75rem',
+        }}
+      >
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.35rem' }}>
+            <span style={{ fontSize: '0.75rem', fontWeight: 800, padding: '0.2rem 0.6rem', borderRadius: '999px', backgroundColor: 'rgba(99, 102, 241, 0.35)', color: '#a5b4fc' }}>
+              PHASE 9 ACTIVE
+            </span>
+            <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: '#fff' }}>
+              AI Resume Builder & Career Copilot
+            </h3>
+          </div>
+          <p style={{ color: '#c7d2fe', fontSize: '0.875rem' }}>
+            Generate ATS-tailored resumes, sync verified skill test badges and certificates, and unlock Gemini-powered Career Roadmaps.
+          </p>
+        </div>
+
+        <Link to="/student/resume" className="btn btn-primary" style={{ backgroundColor: '#6366f1', borderColor: '#6366f1' }}>
+          Open AI Resume Builder <ArrowRight size={16} />
         </Link>
       </div>
 

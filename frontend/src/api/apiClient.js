@@ -163,4 +163,13 @@ export const api = {
   getAllReviewsForAdmin: () => request('/admin/reviews', { method: 'GET' }),
   toggleFlagReview: (id, flagged = true) => 
     request(`/admin/reviews/${id}/flag?flagged=${flagged}`, { method: 'PUT' }),
+
+  // Phase 9: Resume & Gemini AI APIs
+  getMyResume: () => request('/resume/my-resume', { method: 'GET' }),
+  saveResume: (data) => request('/resume/save', { method: 'POST', body: JSON.stringify(data) }),
+  syncResumeCredentials: () => request('/resume/sync-credentials', { method: 'POST' }),
+  aiImproveResumeContent: (data) => request('/resume/ai/improve', { method: 'POST', body: JSON.stringify(data) }),
+  aiSkillAssistance: (data) => request('/resume/ai/skill-assistance', { method: 'POST', body: JSON.stringify(data) }),
+  aiLearningSuggestions: (data) => request('/resume/ai/learning-suggestions', { method: 'POST', body: JSON.stringify(data) }),
+  aiReviewResumeAts: (data) => request('/resume/ai/ats-review', { method: 'POST', body: JSON.stringify(data) }),
 };

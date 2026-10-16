@@ -19,6 +19,7 @@ import { Connections } from './pages/Connections';
 import { Sessions } from './pages/Sessions';
 import { SkillVerification } from './pages/SkillVerification';
 import { Certificates } from './pages/Certificates';
+import { ResumeBuilder } from './pages/ResumeBuilder';
 import { AdminDashboard } from './pages/AdminDashboard';
 
 export function App() {
@@ -128,6 +129,14 @@ export function App() {
                 element={
                   <ProtectedRoute allowedRoles={['ROLE_STUDENT']}>
                     <Certificates />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/student/resume"
+                element={
+                  <ProtectedRoute allowedRoles={['ROLE_STUDENT']}>
+                    <ResumeBuilder />
                   </ProtectedRoute>
                 }
               />
